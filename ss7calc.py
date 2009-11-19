@@ -1,0 +1,132 @@
+#!/usr/bin/env python
+# encoding: utf-8
+"""
+spccalc.py
+
+Created by Philippe Langlois on 2009-11-18.
+Copyright (c) 2009 P1 Security. All rights reserved.
+"""
+
+import sys
+import getopt
+
+
+help_message = '''
+SPCcalc - SS7 Signaling Point Code calculator
+SS7calc - SS7 Signaling Point Code calculator
+
+Format: 5-4-5
+>>> 30*2**9 + 0*2**5 + 30
+15390
+
+>>> pc="30-0-30"
+>>> int(pc.split('-')[0]) * 2**9 + int(pc.split('-')[1]) * 2**5 + int(pc.split('-')[2])
+15390
+
+>>> pc=15390
+>>> ('-').join( ("%d"%(pc >> 9), "%d"%((pc- a*2**9) >> 5), "%d"%(pc - a*2**9 - b*2**5)) )
+'30-0-30'
+
+'''
+
+class SPC():
+   def __init__(self, int = None, ):
+      self.spc = None
+      self.verbose = False
+      
+   def set_int(self, int):
+      self.spc = int
+
+   def check_split(self, s):
+      l = s.split('-')
+      if len(l) is not 3:
+         print "Error: Wrong format, should be like A-B-C"
+         return None, None, None
+      else:
+         a, b, c = l
+         if self.verbose: print "%s --> %d-%d-%d" % (s, a, b, c)
+         return a, b, c
+      
+   def set_545(self, spc545):
+      l = spc545.split('-')
+      if len(l) is not 3:
+         print "Error: Wrong format, should be like A-B-C"
+         return
+      else:
+         a, b, c = l
+         self.spc = a*2**9 + b*2**5 + c
+   #
+   def set_383(self, s):
+      a, b, c = self.check_split(s)
+      if a is not None:
+         a = int(a)
+         b = int(b)
+         c = int(c)
+         self.spc = a*2**11 + b*2**3 + c
+      
+   def to_545(self):
+      pc = int(self.spc)
+      a = pc >> 9
+      b = (pc- a*2**9) >> 5
+      c = pc - a*2**9 - b*2**5
+      return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
+
+   def to_383(self):
+      pc = int(self.spc)
+      a = pc >> 11
+      b = (pc- a*2**11) >> 3
+      c = pc - a*2**11 - b*2**3
+      return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
+
+class Usage(Exception):
+	def __init__(self, msg):
+		self.msg = msg
+
+
+def main(argv=None):
+   if argv is None:
+   	argv = sys.argv
+   try:
+      try:
+      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:", ["help", "output=", "int=", "383=", "545="])
+      except getopt.error, msg:
+      	raise Usage(msg)
+
+      spc = SPC()
+      # option processing
+      for option, value in opts:
+      	if option == "-v":
+      		verbose = True
+      		spc.verbose = True
+      	#
+      	if option in ("-h", "--help"):
+      		raise Usage(help_message)
+      	# 
+      	if option in ("-o", "--output"):
+      		output = value
+      	#
+      	if option in ("-3", "--383"):
+      		spc.set_383(value)
+      	#
+      	if option in ("-5", "--545"):
+      		spc.set_545(value)
+      	# 
+      	if option in ("-i", "--int"):
+      		spc.set_int(value)
+      
+      if spc.spc is not None:
+         print "SS7calc - SS7 Signaling Point Code calculator\n"
+         print "SPC Decimal : %d" % spc.spc
+         print "5-4-5 Format: " + spc.to_545()
+         print "3-8-3 Format: " + spc.to_383()
+      else:
+         raise Usage("Please set a value for PC")
+
+   except Usage, err:
+   	print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
+   	print >> sys.stderr, "\t for help use --help"
+   	return 2
+
+
+if __name__ == "__main__":
+	sys.exit(main())
