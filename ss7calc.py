@@ -54,14 +54,23 @@ class SPC():
          return
       else:
          a, b, c = l
+         a = int(a)
+         b = int(b)
+         c = int(c)
+         if a > 2**5 or b > 2**4 or c > 2**5:
+            print "Error: %s does not look like Signaling Point Code Format 5-4-5 (max=%d-%d-%d, min=0-0-0)\n" % (spc545, 2**5, 2**4, 2**5)
+            return
          self.spc = a*2**9 + b*2**5 + c
-   #
+
    def set_383(self, s):
       a, b, c = self.check_split(s)
       if a is not None:
          a = int(a)
          b = int(b)
          c = int(c)
+         if a > 2**3 or b > 2**8 or c > 2**3:
+            print "Error: %s does not look like Signaling Point Code Format 3-8-3 (max=%d-%d-%d, min=0-0-0)\n" % (s, 2**3, 2**8, 2**3)
+            return
          self.spc = a*2**11 + b*2**3 + c
       
    def to_545(self):
