@@ -38,6 +38,8 @@ Format: 5-4-5
 >>> ('-').join( ("%d"%(pc >> 9), "%d"%((pc- a*2**9) >> 5), "%d"%(pc - a*2**9 - b*2**5)) )
 '30-0-30'
 
+For more information:
+http://en.wikipedia.org/wiki/Point_code
 '''
 
 class SPC():
