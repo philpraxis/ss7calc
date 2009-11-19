@@ -5,6 +5,8 @@ spccalc.py
 
 Created by Philippe Langlois on 2009-11-18.
 Copyright (c) 2009 P1 Security. All rights reserved.
+
+Code under eGPL license. http://www.egpl.info
 """
 
 import sys
