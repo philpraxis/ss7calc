@@ -29,18 +29,14 @@ SS7calc - SS7 Signaling Point Code calculator
 "-a", "--ansi"
 	specify SPC as ANSI
 
+Examples:
+$ ./ss7calc.py -i 12345
+SS7calc - SS7 Signaling Point Code calculator
 
-Format: 5-4-5
->>> 30*2**9 + 0*2**5 + 30
-15390
-
->>> pc="30-0-30"
->>> int(pc.split('-')[0]) * 2**9 + int(pc.split('-')[1]) * 2**5 + int(pc.split('-')[2])
-15390
-
->>> pc=15390
->>> ('-').join( ("%d"%(pc >> 9), "%d"%((pc- a*2**9) >> 5), "%d"%(pc - a*2**9 - b*2**5)) )
-'30-0-30'
+SPC Decimal : 12345
+Format      : Unknown
+5-4-5 Format: 24-1-25
+3-8-3 Format: 6-7-1
 
 For more information:
 http://en.wikipedia.org/wiki/Point_code
@@ -167,8 +163,6 @@ def main(argv=None):
       		
       	if option in ("-i", "--int"):
       		spc.set_int(value)
-
-
       
       if spc.spc is not None:
          print "SS7calc - SS7 Signaling Point Code calculator\n"
