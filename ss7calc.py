@@ -57,16 +57,18 @@ class SPC():
       self.spc = int(intv)
       
    def set_itu(self):
-      self.kind = "itu"
+      self.kind = "ITU"
+      self.kind_detail = "14 bits"
    
    def set_ansi(self):
-      self.kind = "ansi"
+      self.kind = "ANSI"
+      self.kind_detail = "24 bits"
       
    def kind_string(self):
       if self.kind is None:
          return "Unknown"
       else:
-         return self.kind
+         return "%s (%s)" % (self.kind.upper(), self.kind_detail)
 
    def check_split(self, s):
       l = s.split('-')
