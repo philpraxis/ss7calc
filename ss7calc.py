@@ -43,12 +43,26 @@ http://en.wikipedia.org/wiki/Point_code
 '''
 
 class SPC():
-   def __init__(self, int = None, ):
+   def __init__(self, intv = None):
       self.spc = None
       self.verbose = False
+      self.kind = None
       
-   def set_int(self, int):
-      self.spc = int
+   def set_int(self, intv):
+      if self.verbose: print "Setting spc=%s" % intv
+      self.spc = int(intv)
+      
+   def set_itu(self):
+      self.kind = "itu"
+   
+   def set_ansi(self):
+      self.kind = "ansi"
+      
+   def kind_string(self):
+      if self.kind is None:
+         return "Unknown"
+      else:
+         return self.kind
 
    def check_split(self, s):
       l = s.split('-')
@@ -71,7 +85,7 @@ class SPC():
          b = int(b)
          c = int(c)
          if a > 2**5 or b > 2**4 or c > 2**5:
-            print "Error: %s does not look like Signaling Point Code Format 5-4-5 (max=%d-%d-%d, min=0-0-0)\n" % (spc545, 2**5, 2**4, 2**5)
+            print "Error: %s does not look like Signaling Point Code Format 5-4-5 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (spc545, 2**5, 2**4, 2**5)
             return
          self.spc = a*2**9 + b*2**5 + c
 
@@ -82,7 +96,7 @@ class SPC():
          b = int(b)
          c = int(c)
          if a > 2**3 or b > 2**8 or c > 2**3:
-            print "Error: %s does not look like Signaling Point Code Format 3-8-3 (max=%d-%d-%d, min=0-0-0)\n" % (s, 2**3, 2**8, 2**3)
+            print "Error: %s does not look like Signaling Point Code Format 3-8-3 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (s, 2**3, 2**8, 2**3)
             return
          self.spc = a*2**11 + b*2**3 + c
       
@@ -110,7 +124,7 @@ def main(argv=None):
    	argv = sys.argv
    try:
       try:
-      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:", ["help", "output=", "int=", "383=", "545="])
+      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:ua", ["help", "output=", "int=", "383=", "545=", "itu", "ansi"])
       except getopt.error, msg:
       	raise Usage(msg)
 
@@ -129,16 +143,27 @@ def main(argv=None):
       	#
       	if option in ("-3", "--383"):
       		spc.set_383(value)
+      		spc.set_itu()
       	#
       	if option in ("-5", "--545"):
       		spc.set_545(value)
+      		spc.set_itu()
       	# 
+      	if option in ("-u", "--itu"):
+      		spc.set_itu()
+      		
+      	if option in ("-a", "--ansi"):
+      		spc.set_ansi()
+      		
       	if option in ("-i", "--int"):
       		spc.set_int(value)
+
+
       
       if spc.spc is not None:
          print "SS7calc - SS7 Signaling Point Code calculator\n"
          print "SPC Decimal : %d" % spc.spc
+         print "Format      : %s" % spc.kind_string()
          print "5-4-5 Format: " + spc.to_545()
          print "3-8-3 Format: " + spc.to_383()
       else:
