@@ -24,6 +24,10 @@ SS7calc - SS7 Signaling Point Code calculator
    set Signaling Point Code as 5-4-5 Format
 "-i", "--int"
 	set Signaling Point Code as decimal format
+"-u", "--itu"
+	specify SPC as ITU
+"-a", "--ansi"
+	specify SPC as ANSI
 
 
 Format: 5-4-5
