@@ -44,6 +44,10 @@ Format: 5-4-5
 
 For more information:
 http://en.wikipedia.org/wiki/Point_code
+
+For online versions:
+http://jhartman.webd.pl/pc/index.php
+http://www.linuxfocus.org/~guido/javascript/ansi-point-code-converter.htm
 '''
 
 class SPC():
