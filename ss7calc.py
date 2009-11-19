@@ -12,8 +12,17 @@ import getopt
 
 
 help_message = '''
-SPCcalc - SS7 Signaling Point Code calculator
 SS7calc - SS7 Signaling Point Code calculator
+
+"-h", "--help"
+	displays this message
+"-3", "--383"
+	set Signaling Point Code as 3-8-3 Format
+"-5", "--545"
+   set Signaling Point Code as 5-4-5 Format
+"-i", "--int"
+	set Signaling Point Code as decimal format
+
 
 Format: 5-4-5
 >>> 30*2**9 + 0*2**5 + 30
@@ -129,7 +138,8 @@ def main(argv=None):
          print "5-4-5 Format: " + spc.to_545()
          print "3-8-3 Format: " + spc.to_383()
       else:
-         raise Usage("Please set a value for PC")
+         print "Error: Please set a value for PC\n"
+         print help_message
 
    except Usage, err:
    	print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
