@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # encoding: utf-8
 """
-spccalc.py
+ss7calc.py
 
 Created by Philippe Langlois on 2009-11-18.
 Copyright (c) 2009 P1 Security. All rights reserved.
