@@ -5,6 +5,7 @@ ss7calc.py
 
 Created by Philippe Langlois on 2009-11-18.
 Copyright (c) 2009 P1 Security. All rights reserved.
+http://www.p1security.com
 
 Code under eGPL license. http://www.egpl.info
 """
@@ -24,6 +25,7 @@ http://pycheesecake.org/wiki/PythonTestingToolsTaxonomy
 
 help_message = '''
 SS7calc - SS7 Signaling Point Code calculator
+by Philippe Langlois - http://www.p1security.com
 
 "-h", "--help"
 	displays this message
