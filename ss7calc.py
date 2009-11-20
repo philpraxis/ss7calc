@@ -11,7 +11,12 @@ Code under eGPL license. http://www.egpl.info
 
 import sys
 import getopt
+import os
 
+"""
+Hurra for doctest:
+DOCTEST=1 ./ss7calc.py -v
+"""
 
 help_message = '''
 SS7calc - SS7 Signaling Point Code calculator
@@ -81,6 +86,13 @@ class SPC():
          return a, b, c
       
    def set_545(self, spc545):
+      """
+      >>> s = SPC()
+      >>> s.set_545('1-2-3')
+      >>> s.spc
+      579
+      >>>
+      """
       l = spc545.split('-')
       if len(l) is not 3:
          print "Error: Wrong format, should be like A-B-C"
@@ -96,6 +108,13 @@ class SPC():
          self.spc = a*2**9 + b*2**5 + c
 
    def set_383(self, s):
+      """
+      >>> s = SPC()
+      >>> s.set_383('1-2-3')
+      >>> s.spc
+      2067
+      >>>
+      """
       a, b, c = self.check_split(s)
       if a is not None:
          a = int(a)
@@ -107,6 +126,14 @@ class SPC():
          self.spc = a*2**11 + b*2**3 + c
       
    def to_545(self):
+      """
+      from ss7calc import *
+      >>> s = SPC()
+      >>> s.set_int(1234)
+      >>> s.to_545()
+      '2-6-18'
+      >>>
+      """
       pc = int(self.spc)
       a = pc >> 9
       b = (pc- a*2**9) >> 5
@@ -114,6 +141,13 @@ class SPC():
       return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
    def to_383(self):
+      """
+      >>> s = SPC()
+      >>> s.set_int(1234)
+      >>> s.to_383()
+      '0-154-2'
+      >>>
+      """
       pc = int(self.spc)
       a = pc >> 11
       b = (pc- a*2**11) >> 3
@@ -179,6 +213,9 @@ def main(argv=None):
    	print >> sys.stderr, "\t for help use --help"
    	return 2
 
+if os.getenv("DOCTEST") == "1":
+   import doctest
+   sys.exit(doctest.testmod())
 
 if __name__ == "__main__":
 	sys.exit(main())
