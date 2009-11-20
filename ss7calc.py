@@ -16,6 +16,7 @@ import os
 """
 Hurra for doctest:
 DOCTEST=1 ./ss7calc.py -v
+http://docs.python.org/library/doctest.html
 """
 
 help_message = '''
