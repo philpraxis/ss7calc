@@ -9,19 +9,9 @@ http://www.p1security.com
 
 Code under eGPL license. http://www.egpl.info
 """
-
 import sys
 import getopt
 import os
-
-"""
-Hurra for doctest:
-DOCTEST=1 ./ss7calc.py -v
-http://docs.python.org/library/doctest.html
-
-But check this too:
-http://pycheesecake.org/wiki/PythonTestingToolsTaxonomy
-"""
 
 help_message = '''SS7calc - SS7 Signaling Point Code calculator
 by Philippe Langlois - http://www.p1security.com
@@ -253,6 +243,14 @@ def main(argv=None):
    	return 2
 
 if os.getenv("DOCTEST") == "1":
+   """
+   Hurra for doctest:
+   DOCTEST=1 ./ss7calc.py -v
+   http://docs.python.org/library/doctest.html
+
+   But check this too:
+   http://pycheesecake.org/wiki/PythonTestingToolsTaxonomy
+   """
    import doctest
    sys.exit(doctest.testmod())
 
