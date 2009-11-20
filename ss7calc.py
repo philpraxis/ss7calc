@@ -17,6 +17,9 @@ import os
 Hurra for doctest:
 DOCTEST=1 ./ss7calc.py -v
 http://docs.python.org/library/doctest.html
+
+But check this too:
+http://pycheesecake.org/wiki/PythonTestingToolsTaxonomy
 """
 
 help_message = '''
