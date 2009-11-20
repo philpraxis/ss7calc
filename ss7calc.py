@@ -23,8 +23,7 @@ But check this too:
 http://pycheesecake.org/wiki/PythonTestingToolsTaxonomy
 """
 
-help_message = '''
-SS7calc - SS7 Signaling Point Code calculator
+help_message = '''SS7calc - SS7 Signaling Point Code calculator
 by Philippe Langlois - http://www.p1security.com
 
 "-h", "--help"
@@ -39,6 +38,8 @@ by Philippe Langlois - http://www.p1security.com
 	specify SPC as ITU
 "-a", "--ansi"
 	specify SPC as ANSI
+"-r", "--read"
+   pass file (or standard input if file is '-') and process the content as SPC values
 
 Examples:
 $ ./ss7calc.py -i 12345
@@ -240,7 +241,7 @@ def main(argv=None):
          sys.exit()
       
       if spc.spc is not None:
-         print "SS7calc - SS7 Signaling Point Code calculator\n"
+         print "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
          spc.display()
       else:
          print "Error: Please set a value for PC\n"
