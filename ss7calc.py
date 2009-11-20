@@ -158,17 +158,36 @@ class SPC():
       c = pc - a*2**11 - b*2**3
       return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
+   def display(self):
+      """
+      from ss7calc import *
+      >>> s = SPC()
+      >>> s.set_int(1234)
+      >>> s.display()
+      SPC Decimal : 1234
+      Format      : Unknown
+      5-4-5 Format: 2-6-18
+      3-8-3 Format: 0-154-2
+      >>>
+      """
+      print "SPC Decimal : %d" % self.spc
+      print "Format      : %s" % self.kind_string()
+      print "5-4-5 Format: " + self.to_545()
+      print "3-8-3 Format: " + self.to_383()
+      
+
 class Usage(Exception):
 	def __init__(self, msg):
 		self.msg = msg
 
 
 def main(argv=None):
+   read_file = None
    if argv is None:
    	argv = sys.argv
    try:
       try:
-      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:ua", ["help", "output=", "int=", "383=", "545=", "itu", "ansi"])
+      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:uar:", ["help", "output=", "int=", "383=", "545=", "itu", "ansi", "read="])
       except getopt.error, msg:
       	raise Usage(msg)
 
@@ -201,13 +220,26 @@ def main(argv=None):
       		
       	if option in ("-i", "--int"):
       		spc.set_int(value)
+      		
+      	if option in ("-r", "--read"):
+      	   #spc.read(value)
+      	   read_file = value
+      	   
+      if read_file is not None:
+         if read_file == "-":
+            content = sys.stdin.readlines()
+         else:
+            content = open(read_file).readlines()
+         s = spc
+         for index,line in enumerate(content):
+            s.set_int(line.strip())
+            s.display()
+            print ""
+         sys.exit()
       
       if spc.spc is not None:
          print "SS7calc - SS7 Signaling Point Code calculator\n"
-         print "SPC Decimal : %d" % spc.spc
-         print "Format      : %s" % spc.kind_string()
-         print "5-4-5 Format: " + spc.to_545()
-         print "3-8-3 Format: " + spc.to_383()
+         spc.display()
       else:
          print "Error: Please set a value for PC\n"
          print help_message
