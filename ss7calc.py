@@ -215,7 +215,6 @@ def main(argv=None):
       		spc.set_int(value)
       		
       	if option in ("-r", "--read"):
-      	   #spc.read(value)
       	   read_file = value
       	   
       if read_file is not None:
