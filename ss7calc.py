@@ -13,9 +13,7 @@ import sys
 import getopt
 import os
 
-help_message = '''SS7calc - SS7 Signaling Point Code calculator
-by Philippe Langlois - http://www.p1security.com
-
+help_message = '''Usage:
 "-h", "--help"
 	displays this message
 "-3", "--383"
@@ -192,7 +190,8 @@ def main(argv=None):
       		spc.verbose = True
       	#
       	if option in ("-h", "--help"):
-      		raise Usage(help_message)
+      	   print "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
+      	   raise Usage(help_message)
       	# 
       	if option in ("-o", "--output"):
       		output = value
@@ -217,6 +216,7 @@ def main(argv=None):
       	if option in ("-r", "--read"):
       	   read_file = value
       	   
+      print "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
       if read_file is not None:
          if read_file == "-":
             content = sys.stdin.readlines()
@@ -230,7 +230,6 @@ def main(argv=None):
          sys.exit()
       
       if spc.spc is not None:
-         print "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
          spc.display()
       else:
          print "Error: Please set a value for PC\n"
