@@ -51,6 +51,7 @@ class SPC():
       self.spc = None
       self.verbose = False
       self.kind = None
+      self.csv = False
       
    def set_int(self, intv):
       if self.verbose: print "Setting spc=%s" % intv
@@ -63,6 +64,9 @@ class SPC():
    def set_ansi(self):
       self.kind = "ANSI"
       self.kind_detail = "24 bits"
+      
+   def set_display_csv(self):
+      self.csv = True
       
    def kind_string(self):
       if self.kind is None:
@@ -159,13 +163,26 @@ class SPC():
       Format      : Unknown
       5-4-5 Format: 2-6-18
       3-8-3 Format: 0-154-2
+      
       >>>
       """
-      print "SPC Decimal : %d" % self.spc
-      print "Format      : %s" % self.kind_string()
-      print "5-4-5 Format: " + self.to_545()
-      print "3-8-3 Format: " + self.to_383()
-      
+      if self.csv is True:
+         print "%d,%s,%s,%s" % (self.spc, self.kind_string(), self.to_545(), self.to_383())
+      else:
+         print "SPC Decimal : %d" % self.spc
+         print "Format      : %s" % self.kind_string()
+         print "5-4-5 Format: " + self.to_545()
+         print "3-8-3 Format: " + self.to_383()
+         print ""
+         
+   def header(self):
+      """
+      Displays header...
+      """
+      if self.csv is True:
+         return "SS7calc,SS7 Signaling Point Code calculator,by Philippe Langlois,http://www.p1security.com\nSPC Decimal,Format,5-4-5 Format,3-8-3 Format"
+      else:
+         return "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
 
 class Usage(Exception):
 	def __init__(self, msg):
@@ -178,7 +195,7 @@ def main(argv=None):
    	argv = sys.argv
    try:
       try:
-      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:uar:", ["help", "output=", "int=", "383=", "545=", "itu", "ansi", "read="])
+      	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:uar:c", ["help", "output=", "int=", "383=", "545=", "itu", "ansi", "read=", "csv"])
       except getopt.error, msg:
       	raise Usage(msg)
 
@@ -190,7 +207,7 @@ def main(argv=None):
       		spc.verbose = True
       	#
       	if option in ("-h", "--help"):
-      	   print "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
+      	   print spc.header()
       	   raise Usage(help_message)
       	# 
       	if option in ("-o", "--output"):
@@ -216,7 +233,10 @@ def main(argv=None):
       	if option in ("-r", "--read"):
       	   read_file = value
       	   
-      print "SS7calc - SS7 Signaling Point Code calculator\nby Philippe Langlois - http://www.p1security.com\n"
+      	if option in ("-c", "--csv"):
+      	   spc.set_display_csv()
+      	   
+      print spc.header()
       if read_file is not None:
          if read_file == "-":
             content = sys.stdin.readlines()
@@ -226,7 +246,6 @@ def main(argv=None):
          for index,line in enumerate(content):
             s.set_int(line.strip())
             s.display()
-            print ""
          sys.exit()
       
       if spc.spc is not None:
