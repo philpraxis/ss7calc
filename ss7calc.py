@@ -17,7 +17,7 @@ help_message = '''Usage:
 "-h", "--help"
 	displays this message
 "-3", "--383"
-	set Signaling Point Code as 3-8-3 Format
+	set Signaling Point Code as 3-8-3 Format (Recommended, used by ITU)
 "-5", "--545"
    set Signaling Point Code as 5-4-5 Format
 "-i", "--int"
@@ -83,7 +83,7 @@ class SPC():
          a, b, c = l
          if self.verbose: print "%s --> %d-%d-%d" % (s, a, b, c)
          return a, b, c
-      
+
    def set_545(self, spc545):
       """
       >>> s = SPC()
@@ -123,6 +123,13 @@ class SPC():
             print "Error: %s does not look like Signaling Point Code Format 3-8-3 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (s, 2**3, 2**8, 2**3)
             return
          self.spc = a*2**11 + b*2**3 + c
+
+   def get_545(self):
+      pc = int(self.spc)
+      a = pc >> 9
+      b = (pc- a*2**9) >> 5
+      c = pc - a*2**9 - b*2**5
+      return a, b, c
       
    def to_545(self):
       """
@@ -138,6 +145,13 @@ class SPC():
       b = (pc- a*2**9) >> 5
       c = pc - a*2**9 - b*2**5
       return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
+
+   def get_383(self):
+      pc = int(self.spc)
+      a = pc >> 11
+      b = (pc- a*2**11) >> 3
+      c = pc - a*2**11 - b*2**3
+      return a, b, c
 
    def to_383(self):
       """
@@ -163,7 +177,7 @@ class SPC():
       Format      : Unknown
       5-4-5 Format: 2-6-18
       3-8-3 Format: 0-154-2
-      
+      <BLANKLINE>
       >>>
       """
       if self.csv is True:
