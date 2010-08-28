@@ -140,10 +140,6 @@ class SPC():
       '2-6-18'
       >>>
       """
-      # pc = int(self.spc)
-      # a = pc >> 9
-      # b = (pc- a*2**9) >> 5
-      # c = pc - a*2**9 - b*2**5
       a, b, c = self.get_545()
       return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
@@ -162,10 +158,6 @@ class SPC():
       '0-154-2'
       >>>
       """
-      # pc = int(self.spc)
-      # a = pc >> 11
-      # b = (pc- a*2**11) >> 3
-      # c = pc - a*2**11 - b*2**3
       a, b, c = self.get_383()
       return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
