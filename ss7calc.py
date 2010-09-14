@@ -141,7 +141,8 @@ class SPC():
       >>>
       """
       a, b, c = self.get_545()
-      return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
+      return "%d-%d-%d"%(a,b,c)
+      # return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
    def get_383(self):
       pc = int(self.spc)
@@ -159,7 +160,8 @@ class SPC():
       >>>
       """
       a, b, c = self.get_383()
-      return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
+      return "%d-%d-%d"%(a,b,c)
+      # return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
    def display(self):
       """
