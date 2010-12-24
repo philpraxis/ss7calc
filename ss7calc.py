@@ -54,7 +54,7 @@ class SPC():
       self.csv = False
       
    def set_int(self, intv):
-      if self.verbose: print "Setting spc=%s" % intv
+      if self.verbose: print(("Setting spc=%s" % intv))
       self.spc = int(intv)
       
    def set_itu(self):
@@ -77,11 +77,11 @@ class SPC():
    def check_split(self, s):
       l = s.split('-')
       if len(l) is not 3:
-         print "Error: Wrong format, should be like A-B-C"
+         print("Error: Wrong format, should be like A-B-C")
          return None, None, None
       else:
          a, b, c = l
-         if self.verbose: print "%s --> %d-%d-%d" % (s, a, b, c)
+         if self.verbose: print(("%s --> %d-%d-%d" % (s, a, b, c)))
          return a, b, c
 
    def set_545(self, spc545):
@@ -94,7 +94,7 @@ class SPC():
       """
       l = spc545.split('-')
       if len(l) is not 3:
-         print "Error: Wrong format, should be like A-B-C"
+         print("Error: Wrong format, should be like A-B-C")
          return
       else:
          a, b, c = l
@@ -102,7 +102,7 @@ class SPC():
          b = int(b)
          c = int(c)
          if a > 2**5 or b > 2**4 or c > 2**5:
-            print "Error: %s does not look like Signaling Point Code Format 5-4-5 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (spc545, 2**5, 2**4, 2**5)
+            print(("Error: %s does not look like Signaling Point Code Format 5-4-5 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (spc545, 2**5, 2**4, 2**5)))
             return
          self.spc = a*2**9 + b*2**5 + c
 
@@ -120,7 +120,7 @@ class SPC():
          b = int(b)
          c = int(c)
          if a > 2**3 or b > 2**8 or c > 2**3:
-            print "Error: %s does not look like Signaling Point Code Format 3-8-3 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (s, 2**3, 2**8, 2**3)
+            print(("Error: %s does not look like Signaling Point Code Format 3-8-3 (max=%d-%d-%d, min=0-0-0), maybe it is ANSI (8-8-8)?\n" % (s, 2**3, 2**8, 2**3)))
             return
          self.spc = a*2**11 + b*2**3 + c
 
@@ -177,13 +177,13 @@ class SPC():
       >>>
       """
       if self.csv is True:
-         print "%d,%s,%s,%s" % (self.spc, self.kind_string(), self.to_545(), self.to_383())
+         print(("%d,%s,%s,%s" % (self.spc, self.kind_string(), self.to_545(), self.to_383())))
       else:
-         print "SPC Decimal : %d" % self.spc
-         print "Format      : %s" % self.kind_string()
-         print "5-4-5 Format: " + self.to_545()
-         print "3-8-3 Format: " + self.to_383()
-         print ""
+         print(("SPC Decimal : %d" % self.spc))
+         print(("Format      : %s" % self.kind_string()))
+         print(("5-4-5 Format: " + self.to_545()))
+         print(("3-8-3 Format: " + self.to_383()))
+         print("")
          
    def header(self):
       """
@@ -206,7 +206,7 @@ def main(argv=None):
    try:
       try:
       	opts, args = getopt.getopt(argv[1:], "ho:vi:3:5:uar:c", ["help", "output=", "int=", "383=", "545=", "itu", "ansi", "read=", "csv"])
-      except getopt.error, msg:
+      except getopt.error as msg:
       	raise Usage(msg)
 
       spc = SPC()
@@ -217,7 +217,7 @@ def main(argv=None):
       		spc.verbose = True
       	#
       	if option in ("-h", "--help"):
-      	   print spc.header()
+      	   print((spc.header()))
       	   raise Usage(help_message)
       	# 
       	if option in ("-o", "--output"):
@@ -246,7 +246,7 @@ def main(argv=None):
       	if option in ("-c", "--csv"):
       	   spc.set_display_csv()
       	   
-      print spc.header()
+      print((spc.header()))
       if read_file is not None:
          if read_file == "-":
             content = sys.stdin.readlines()
@@ -261,12 +261,12 @@ def main(argv=None):
       if spc.spc is not None:
          spc.display()
       else:
-         print "Error: Please set a value for PC\n"
-         print help_message
+         print("Error: Please set a value for PC\n")
+         print(help_message)
 
-   except Usage, err:
-   	print >> sys.stderr, sys.argv[0].split("/")[-1] + ": " + str(err.msg)
-   	print >> sys.stderr, "\t for help use --help"
+   except Usage as err:
+   	print(sys.argv[0].split("/")[-1] + ": " + str(err.msg), file=sys.stderr)
+   	print("\t for help use --help", file=sys.stderr)
    	return 2
 
 if os.getenv("DOCTEST") == "1":
