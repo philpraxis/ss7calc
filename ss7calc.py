@@ -265,8 +265,8 @@ def main(argv=None):
          print(help_message)
 
    except Usage as err:
-   	print(sys.argv[0].split("/")[-1] + ": " + str(err.msg), file=sys.stderr)
-   	print("\t for help use --help", file=sys.stderr)
+   	print(sys.argv[0].split("/")[-1] + ": " + str(err.msg))
+   	print("\t for help use --help")
    	return 2
 
 if os.getenv("DOCTEST") == "1":
