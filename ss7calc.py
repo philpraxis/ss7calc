@@ -59,6 +59,10 @@ class SPC():
     def set_int(self, intv):
         if self.verbose: print(("Setting spc=%s" % intv))
         self.spc = int(intv)
+
+    def set_hex(self, hexv):
+        self.spc = int(hexv,16)
+        if self.verbose: print(("Setting spc=%s" % self.spc))
       
     def set_itu(self):
         self.kind = "ITU"
@@ -166,6 +170,16 @@ class SPC():
         return "%d-%d-%d"%(a,b,c)
         # return ('-').join( ("%d"%a, "%d"%b, "%d"%c) )
 
+    def to_hex(self):
+        """
+        >>> s = SPC()
+        >>> s.set_int(1234)
+        >>> s.to_hex()
+        "H'4D2"
+        >>>
+        """
+        return ("H'%x" % self.spc).upper()
+
     def display(self):
         """
         from ss7calc import *
@@ -174,6 +188,7 @@ class SPC():
         >>> s.display()
         SPC Decimal : 1234
         Format      : Unknown
+        Hex Format  : H'4D2
         5-4-5 Format: 2-6-18
         3-8-3 Format: 0-154-2
         <BLANKLINE>
@@ -184,6 +199,7 @@ class SPC():
         else:
             print(("SPC Decimal : %d" % self.spc))
             print(("Format      : %s" % self.kind_string()))
+            print(("Hex Format  : " + self.to_hex()))
             print(("5-4-5 Format: " + self.to_545()))
             print(("3-8-3 Format: " + self.to_383()))
             print("")
@@ -208,7 +224,7 @@ def main(argv=None):
         argv = sys.argv
     try:
         try:
-      	    opts, args = getopt.getopt(argv[1:], "ho:vi:h:3:5:uar:c", ["help", "output=", "int=", "383=", "545=", "itu", "ansi", "read=", "csv"])
+      	    opts, args = getopt.getopt(argv[1:], "ho:vi:x:3:5:uar:c", ["help", "output=", "int=", "hex=", "383=", "545=", "itu", "ansi", "read=", "csv"])
         except getopt.error as msg:
       	    raise Usage(msg)
 
@@ -243,8 +259,8 @@ def main(argv=None):
             if option in ("-i", "--int"):
                 spc.set_int(value)
             #
-        	if option in ("-h", "--hex"):
-        		spc.set_hex(value)
+            if option in ("-x", "--hex"):
+                spc.set_hex(value)
         	#	
         	if option in ("-r", "--read"):
         	   read_file = value
