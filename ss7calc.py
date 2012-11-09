@@ -15,19 +15,19 @@ import os
 
 help_message = '''Usage:
 "-h", "--help"
-	displays this message
+    displays this message
 "-3", "--383"
-	set Signaling Point Code as 3-8-3 Format (Recommended, used by ITU)
+    set Signaling Point Code as 3-8-3 Format (Recommended, used by ITU)
 "-5", "--545"
    set Signaling Point Code as 5-4-5 Format
 "-i", "--int"
-	set Signaling Point Code as decimal format
+    set Signaling Point Code as decimal format
 "-h", "--hex"
-	set Signaling Point Code as heximal format 
+    set Signaling Point Code as heximal format 
 "-u", "--itu"
-	specify SPC as ITU
+    specify SPC as ITU
 "-a", "--ansi"
-	specify SPC as ANSI
+    specify SPC as ANSI
 "-r", "--read"
    pass file (or standard input if file is '-') and process the content as SPC values
 
@@ -195,7 +195,11 @@ class SPC():
         >>>
         """
         if self.csv is True:
-            print(("%d,%s,%s,%s" % (self.spc, self.kind_string(), self.to_545(), self.to_383())))
+            print(("%d,%s,%s,%s,%s" % (self.spc, 
+                                    self.kind_string(), 
+                                    self.to_hex(),
+                                    self.to_545(), 
+                                    self.to_383())))
         else:
             print(("SPC Decimal : %d" % self.spc))
             print(("Format      : %s" % self.kind_string()))
@@ -215,7 +219,7 @@ class SPC():
 
 class Usage(Exception):
     def __init__(self, msg):
-	    self.msg = msg
+        self.msg = msg
 
 
 def main(argv=None):
@@ -224,50 +228,50 @@ def main(argv=None):
         argv = sys.argv
     try:
         try:
-      	    opts, args = getopt.getopt(argv[1:], "ho:vi:x:3:5:uar:c", ["help", "output=", "int=", "hex=", "383=", "545=", "itu", "ansi", "read=", "csv"])
+            opts, args = getopt.getopt(argv[1:], "ho:vi:x:3:5:uar:c", ["help", "output=", "int=", "hex=", "383=", "545=", "itu", "ansi", "read=", "csv"])
         except getopt.error as msg:
-      	    raise Usage(msg)
+            raise Usage(msg)
 
         spc = SPC()
         # option processing
         for option, value in opts:
             if option == "-v":
-        	    verbose = True
-        	    spc.verbose = True
+                verbose = True
+                spc.verbose = True
             #
             if option in ("-h", "--help"):
-        	    print((spc.header()))
-        	    raise Usage(help_message)
-        	# 
+                print((spc.header()))
+                raise Usage(help_message)
+            # 
             if option in ("-o", "--output"):
-        	    output = value
-        	#
+                output = value
+            #
             if option in ("-3", "--383"):
-        	    spc.set_383(value)
-        	    spc.set_itu()
-        	#
+                spc.set_383(value)
+                spc.set_itu()
+            #
             if option in ("-5", "--545"):
                 spc.set_545(value)
                 spc.set_itu()
-        	# 
+            # 
             if option in ("-u", "--itu"):
                 spc.set_itu()
-        	#	
+            #
             if option in ("-a", "--ansi"):
                 spc.set_ansi()
-        	#	
+            #
             if option in ("-i", "--int"):
                 spc.set_int(value)
             #
             if option in ("-x", "--hex"):
                 spc.set_hex(value)
-        	#	
-        	if option in ("-r", "--read"):
-        	   read_file = value
-        	#   
-        	if option in ("-c", "--csv"):
-        	   spc.set_display_csv()
-      	   
+            #
+            if option in ("-r", "--read"):
+                read_file = value
+            #   
+            if option in ("-c", "--csv"):
+                spc.set_display_csv()
+           
         print((spc.header()))
         if read_file is not None:
             if read_file == "-":
