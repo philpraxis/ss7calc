@@ -2,3 +2,41 @@ SS7calc - SS7 Signaling Point Code calculator
 by Philippe Langlois - http://www.p1security.com
 
 Code under eGPL license. http://www.egpl.info
+
+Usage:
+"-h", "--help"
+	displays this message
+"-3", "--383"
+	set Signaling Point Code as 3-8-3 Format (Recommended, used by ITU)
+"-5", "--545"
+   set Signaling Point Code as 5-4-5 Format
+"-6", "--662"
+   set Signaling Point Code as 6-6-2 Format
+"-i", "--int"
+	set Signaling Point Code as decimal format
+"-h", "--hex"
+	set Signaling Point Code as heximal format 
+"-u", "--itu"
+	specify SPC as ITU
+"-a", "--ansi"
+	specify SPC as ANSI
+"-r", "--read"
+   pass file (or standard input if file is '-') and process the content as SPC values
+
+Examples:
+$ ./ss7calc.py -i 12345
+SS7calc - SS7 Signaling Point Code calculator
+
+SPC Decimal : 12345
+Format      : Unknown
+Hex format  : 3039
+5-4-5 Format: 24-1-25
+3-8-3 Format: 6-7-1
+
+For more information:
+http://en.wikipedia.org/wiki/Point_code
+
+For online versions:
+http://jhartman.webd.pl/pc/index.php
+http://www.linuxfocus.org/~guido/javascript/ansi-point-code-converter.htm
+
